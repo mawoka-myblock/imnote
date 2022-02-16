@@ -7,12 +7,14 @@ interface CreateNote {
 	description?: string;
 	title: string;
 	pictures: string[];
+	tags: string[];
 }
 
 const CreateNote = v.object({
 	description: v.string(),
 	title: v.string().required(),
-	pictures: v.array().required()
+	pictures: v.array().required(),
+	tags: v.array()
 });
 
 export async function post({ request }) {
@@ -36,9 +38,9 @@ export async function post({ request }) {
 			return {
 				status: 400,
 				body: e,
-                headers: {
-                    "content-type": "application/json"
-                }
+				headers: {
+					'content-type': 'application/json'
+				}
 			};
 		} else {
 			throw e;
@@ -51,22 +53,42 @@ export async function post({ request }) {
 			return {
 				status: 404,
 				body: JSON.stringify({ detail: `picture ${note.pictures[entry]} not found` }),
-                headers: {
-                    "content-type": "application/json"
-                }
+				headers: {
+					'content-type': 'application/json'
+				}
 			};
 		}
 		testarr.push({ id: note.pictures[entry] });
 	}
 
-	console.log(testarr);
+	const tagArray = [];
+	if (note.tags !== undefined) {
+		if (note.tags.length !== 0) {
+			// eslint-disable-next-line prefer-const
+			for (let i in note.tags) {
+				// tagArray.push({
+				// 	id: note.tags[i],
+				// });
+				tagArray.push({
+					where: {
+						id: note.tags[i]
+					},
+					create: {
+						id: note.tags[i]
+					}
+				});
+			}
+		}
+	}
+	console.log(tagArray);
 
 	const res = await prisma.note.create({
 		data: {
 			title: note.title,
 			description: note.description,
 			pictures: { connect: testarr },
-			userEmail: jwt.email
+			userEmail: jwt.email,
+			tags: { connectOrCreate: tagArray }
 		},
 		include: {
 			user: false
@@ -76,8 +98,8 @@ export async function post({ request }) {
 	return {
 		status: 200,
 		body: JSON.stringify(res),
-        headers: {
-            "content-type": "application/json"
-        }
+		headers: {
+			'content-type': 'application/json'
+		}
 	};
 }

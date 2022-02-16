@@ -29,6 +29,7 @@ model Note {
   pictures    Picture[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  tags        Tag[]     @relation()
 }
 
 model Picture {
@@ -38,4 +39,10 @@ model Picture {
   note      Note?    @relation(fields: [noteId], references: [id])
   noteId    String?
   createdAt DateTime @default(now())
+}
+
+model Tag {
+  id     String  @id @unique
+  Note   Note?   @relation(fields: [noteId], references: [id])
+  noteId String?
 }
