@@ -13,15 +13,18 @@ interface CreateUser {
 	password: string;
 }
 
-/** @type {import('@sveltejs/kit').Load} */
 export async function post({ request }) {
 	let user: CreateUser;
 	try {
-		user = compile(CreateUser, { ensure: true })(await request.json());
+		user = compile(CreateUser, { ensure: true, colors: false })(await request.json());
 	} catch (e) {
 		if (e instanceof ValidationError) {
 			return {
-				status: 400
+				status: 400,
+				body: e,
+				headers: {
+					"content-type": "application/json"
+				}
 			};
 		} else {
 			throw e;

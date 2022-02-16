@@ -11,12 +11,13 @@ datasource db {
 }
 
 model User {
-  email        String       @id @unique
+  email        String    @id @unique
   password     String
-  verified     Boolean      @default(false)
-  verify_key   String       @unique @default(cuid())
+  verified     Boolean   @default(false)
+  verify_key   String    @unique @default(cuid())
   notes        Note[]
-  registerDate DateTime     @default(now())
+  registerDate DateTime  @default(now())
+  Picture      Picture[]
 }
 
 model Note {
@@ -31,9 +32,10 @@ model Note {
 }
 
 model Picture {
+  user      User     @relation(fields: [userEmail], references: [email])
+  userEmail String
   id        String   @id @unique @default(cuid())
-  title     String?
-  note      Note     @relation(fields: [noteId], references: [id])
-  noteId    String
+  note      Note?    @relation(fields: [noteId], references: [id])
+  noteId    String?
   createdAt DateTime @default(now())
 }

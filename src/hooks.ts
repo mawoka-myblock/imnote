@@ -1,8 +1,8 @@
 import * as cookie from 'cookie';
 
 export async function handle({ event, resolve }) {
-	const sth = event.request.headers;
-	console.log(sth.get('cookie'));
+	// const sth = event.request.headers;
+	// console.log(sth.get('cookie'));
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 
 	event.locals.user = cookies.user;

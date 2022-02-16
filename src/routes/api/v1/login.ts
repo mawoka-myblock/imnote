@@ -1,9 +1,7 @@
 import { v, compile, ValidationError } from 'suretype';
-import { PrismaClient } from '@prisma/client';
 import { sendMagicLink } from '$lib/emails';
 import cookie from 'cookie';
-import { generateJWT, verifyJWT } from '$lib/utils/auth';
-import { JsonWebTokenError, NotBeforeError, TokenExpiredError } from 'jsonwebtoken';
+import { generateJWT } from '$lib/utils/auth';
 const LoginUser = v.object({
 	email: v.string().required(),
 	password: v.string()
@@ -17,12 +15,13 @@ interface LoginUser {
 export const post = async ({ request }) => {
 	let user: LoginUser;
 	try {
-		user = compile(LoginUser, { ensure: true })(await request.json());
+		user = compile(LoginUser, { ensure: true, colors: false })(await request.json());
 	} catch (e) {
 		console.error(e);
 		if (e instanceof ValidationError) {
 			return {
-				status: 400
+				status: 400,
+				body: e
 			};
 		} else {
 			throw e;
@@ -41,7 +40,6 @@ export const post = async ({ request }) => {
 		}
 	}
 	const jwt = generateJWT(user.email);
-	let res: string;
 	/*
 	try {
 		res = verifyJWT(jwt);
@@ -74,8 +72,8 @@ export const post = async ({ request }) => {
 				cookie.serialize('token', jwt, {
 					httpOnly: true,
 					maxAge: 3600,
-					sameSite: 'lax',
-					secure: true
+					sameSite: 'lax'
+					// secure: true
 				})
 			]
 		}
