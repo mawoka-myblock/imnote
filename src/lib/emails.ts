@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { DateTime as LuxonDate } from 'luxon';
 import Redis from 'ioredis';
 import { randomBytes } from 'crypto';
+import { prisma } from '$lib/utils/clients';
 
 const getTransporter = async (): Promise<nodemailer.Transporter> => {
 	let transporter: nodemailer.Transporter;
@@ -65,7 +66,6 @@ export const sendConfirmationEmail = async (
 };
 
 export const sendMagicLink = async (email: string): Promise<boolean> => {
-	const prisma = new PrismaClient();
 	const transporter = await getTransporter();
 	const user = await prisma.user.findFirst({
 		where: { email: email }

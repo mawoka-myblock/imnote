@@ -2,9 +2,10 @@ import { analyzeCookies, verifyJWT } from '$lib/utils/auth';
 import type { CookiesInterface } from '$lib/utils/auth';
 import { prisma } from '$lib/utils/clients';
 
-export async function get({ request, url }) {
+export async function del({ request, url }) {
+	const tagId = url.searchParams.get('tag');
 	const noteId = url.searchParams.get('note');
-	if (noteId === null) {
+	if (tagId === null || noteId === null) {
 		return {
 			status: 404
 		};
@@ -21,16 +22,31 @@ export async function get({ request, url }) {
 			status: 403
 		};
 	}
+	const oldTags = await prisma.note.findFirst({
+		where: { id: noteId },
+		select: {
+			tags: true
+		}
+	});
+	const newTags = oldTags.tags.filter((item) => item !== tagId);
 
-	const note = await prisma.note.findFirst({
-		where: { id: noteId, userEmail: jwt.email },
+	const updateRes = await prisma.note.update({
+		data: {
+			tags: {
+				set: newTags
+			}
+		},
+		where: {
+			id: noteId
+		},
 		include: {
-			pictures: true,
-			user: false
+			pictures: true
 		}
 	});
 
-	if (note === null) {
+	console.log(updateRes);
+
+	if (updateRes === null) {
 		return {
 			status: 404
 		};
@@ -38,7 +54,7 @@ export async function get({ request, url }) {
 
 	return {
 		status: 200,
-		body: JSON.stringify(note),
+		body: JSON.stringify(updateRes),
 		headers: {
 			'content-type': 'application/json'
 		}

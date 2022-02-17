@@ -5,6 +5,8 @@ import cuid from 'cuid';
 
 export async function post({ request }) {
 	const cookies: CookiesInterface | boolean = analyzeCookies(request);
+	const content_type = request.headers.get("content-type")
+	console.log(content_type)
 	if (typeof cookies === 'boolean') {
 		return {
 			status: 403
@@ -19,9 +21,10 @@ export async function post({ request }) {
 	const id = cuid();
 	console.log('Uploading now...');
 	const drive = deta.Drive('imnote');
-	await drive.put(id, { data: await request.arrayBuffer().toString('base64') });
+	const data: Buffer = Buffer.from(await request.arrayBuffer());
+	await drive.put(id, { data: data, contentType: content_type });
 	const pic = await prisma.picture.create({
-		data: { id: id, userEmail: jwt.email }
+		data: {userEmail: jwt.email, id: id}
 	});
 	console.log(pic);
 

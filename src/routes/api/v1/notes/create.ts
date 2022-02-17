@@ -46,10 +46,13 @@ export async function post({ request }) {
 			throw e;
 		}
 	}
-	const testarr = [];
+	const picArray = [];
 	// eslint-disable-next-line prefer-const
 	for (let entry in note.pictures) {
-		if ((await prisma.picture.findFirst({ where: { id: note.pictures[entry] } })) === null) {
+		console.log(note.pictures[entry]);
+		const lol = await prisma.picture.findFirst({ where: { id: note.pictures[entry] } });
+		console.log(lol);
+		if (lol === null) {
 			return {
 				status: 404,
 				body: JSON.stringify({ detail: `picture ${note.pictures[entry]} not found` }),
@@ -58,7 +61,7 @@ export async function post({ request }) {
 				}
 			};
 		}
-		testarr.push({ id: note.pictures[entry] });
+		picArray.push({ id: note.pictures[entry] });
 	}
 
 	const tagArray = [];
@@ -70,30 +73,54 @@ export async function post({ request }) {
 				// 	id: note.tags[i],
 				// });
 				tagArray.push({
-					where: {
-						id: note.tags[i]
-					},
 					create: {
-						id: note.tags[i]
+						tagId: note.tags[i]
+					},
+					where: {
+						tagId: note.tags[i]
 					}
 				});
 			}
 		}
 	}
-	console.log(tagArray);
 
 	const res = await prisma.note.create({
 		data: {
 			title: note.title,
 			description: note.description,
-			pictures: { connect: testarr },
+			pictures: { connect: picArray },
 			userEmail: jwt.email,
-			tags: { connectOrCreate: tagArray }
-		},
-		include: {
-			user: false
+			tags: note.tags
 		}
 	});
+
+	// const res = await prisma.note.create({
+	// 	data: {
+	// 		title: note.title,
+	// 		description: note.description,
+	// 		pictures: { connect: picArray },
+	// 		userEmail: jwt.email,
+	// 		tags: {
+	// 			// connectOrCreate: tagArray
+	// 			/*
+	// 			connectOrCreate: {
+	// 				create: {
+	// 					tagId: 'a'
+	// 				},
+	// 				where: {
+	// 					tagId: 'a'
+	// 				}
+	// 			}
+	// 			*/
+	// 			create: {
+	// 				tag: {}
+	// 			}
+	// 		}
+	// 	},
+	// 	include: {
+	// 		user: false
+	// 	}
+	// });
 
 	return {
 		status: 200,
