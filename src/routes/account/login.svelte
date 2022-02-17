@@ -130,7 +130,7 @@
 							<a
 								href="/account/reset-password"
 								class="text-sm text-gray-600 dark:text-gray-200 hover:text-gray-500"
-								>Forget Password?</a
+								>Forgot Password?</a
 							>
 
 							<button
