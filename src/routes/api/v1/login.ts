@@ -1,7 +1,9 @@
 import { v, compile, ValidationError } from 'suretype';
 import { sendMagicLink } from '$lib/emails';
 import cookie from 'cookie';
-import { generateJWT } from '$lib/utils/auth';
+import { generateJWT,  } from '$lib/utils/auth';
+import { comparePassword } from '$lib/passwords';
+import { prisma } from '$lib/utils/clients';
 const LoginUser = v.object({
 	email: v.string().required(),
 	password: v.string()
@@ -35,8 +37,21 @@ export const post = async ({ request }) => {
 			};
 		} else {
 			return {
-				status: 500
+				status: 404
 			};
+		}
+	}
+	const userinDB = await prisma.user.findFirst({
+		where: { email: user.email}
+	});
+	if (userinDB === null) {
+		return {
+			status: 404
+		}
+	}
+	if (!await comparePassword(userinDB.password, user.password)) {
+		return {
+			status: 404
 		}
 	}
 	const jwt = generateJWT(user.email);
@@ -72,8 +87,13 @@ export const post = async ({ request }) => {
 				cookie.serialize('token', jwt, {
 					httpOnly: true,
 					maxAge: 3600,
-					sameSite: 'lax'
+					sameSite: 'strict',
+					path: '/'
 					// secure: true
+				}),
+				cookie.serialize('tokenvalid', '', {
+					maxAge: 3600,
+					path: '/'
 				})
 			]
 		}

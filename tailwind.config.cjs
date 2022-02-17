@@ -2,7 +2,13 @@ const config = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 
 	theme: {
-		extend: {}
+		extend: {
+			colors: {
+				green: {
+					600: '#009444'
+				}
+			}
+		}
 	},
 
 	plugins: []

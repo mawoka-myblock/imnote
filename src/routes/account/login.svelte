@@ -8,9 +8,9 @@
 	import tippy from 'sveltejs-tippy';
 	let loginData = {
 		email: '',
-		password1: '',
-		password2: ''
+		password: ''
 	};
+	let emailEmpty = true;
 	let responseData = {
 		open: false,
 		data: ''
@@ -26,13 +26,13 @@
 			method: 'post',
 			body: JSON.stringify({
 				email: loginData.email,
-				password: loginData.password1
+				password: loginData.password === '' ? undefined : loginData.password
 			})
 		});
 		if (res.status === 200) {
-			responseData.data = '200';
-		} else if (res.status === 409) {
-			responseData.data = '409';
+			responseData.data = loginData.password === '' ? 'magic' : 'password';
+		} else if (res.status === 404) {
+			responseData.data = '404';
 		} else {
 			responseData.data = 'error';
 		}
@@ -43,6 +43,30 @@
 
 <div class="flex items-center justify-center h-screen px-4">
 	<div>
+		<div
+			class="flex items-center justify-center p-4 text-green-700 border-2 border-current rounded-lg"
+			role="alert"
+		>
+			<svg
+				class="w-6 h-6"
+				fill="none"
+				stroke="currentColor"
+				viewBox="0 0 24 24"
+				xmlns="http://www.w3.org/2000/svg"
+				><path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-2m-4-1v8m0 0l3-3m-3 3L9 8m-5 5h2.586a1 1 0 01.707.293l2.414 2.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l2.414-2.414a1 1 0 01.707-.293H20"
+				/></svg
+			>
+
+			<h3 class="ml-3 text-sm font-medium">
+				Password isn't required, because you can login via a magic link!
+			</h3>
+		</div>
+		<span class="p-4" />
+
 		<div
 			class="w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800"
 		>
@@ -89,26 +113,7 @@
 									id="username"
 									name="username"
 									type="password"
-									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
-									placeholder="Password"
-								/>
-								<label
-									for="username"
-									class="absolute cursor-text left-0 -top-3 text-sm text-gray-500 bg-inherit mx-1 px-1 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-500 peer-placeholder-shown:top-2 peer-focus:-top-3 peer-focus:text-sky-600 peer-focus:text-sm transition-all"
-								>
-									Password
-								</label>
-							</div>
-						</div>
-						<div class="dark:bg-gray-800 bg-white p-4 rounded-lg">
-							<div
-								class="relative bg-inherit w-full"
-							>
-								<input
-									id="username"
-									name="username"
-									type="password"
-									bind:value={loginData.password2}
+									bind:value={loginData.password}
 									class="w-full peer bg-transparent h-10 rounded-lg text-gray-700 dark:text-white placeholder-transparent ring-2 px-2 ring-gray-500 focus:ring-sky-600 focus:outline-none focus:border-rose-600"
 									placeholder="Password"
 								/>

@@ -1,2 +1,6 @@
-<script>import "../app.css";</script>
-<slot></slot>
+<script>
+	import '../app.css';
+    import "$lib/smui.css"
+</script>
+
+<slot />
