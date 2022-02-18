@@ -17,7 +17,6 @@ export async function handle({ event, resolve }) {
 /** @type {import('@sveltejs/kit').GetSession} */
 export async function getSession(event) {
 	let localuser = verifyJWT(event.locals.token);
-	console.log(localuser)
 	let authenticated = true;
 	if (typeof localuser === 'string') {
 		authenticated = false;

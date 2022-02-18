@@ -29,7 +29,7 @@
 			<Create />
 		{/if}
 	</div>
-	<ul class="flex border-b border-gray-100 bottom-0 fixed w-full bg-white z-50">
+	<ul class="flex border-b border-gray-100 bottom-0 fixed w-screen bg-white z-50">
 		<li
 			class="flex-1 cursor-pointer group"
 			on:click={() => {
@@ -39,7 +39,7 @@
 			<span class="relative block p-4">
 				{#if overviewSelected}
 					<span
-						class="absolute inset-x-0 w-full h-px bg-green-600 -top-px hover:bg-gray-400"
+						class="absolute inset-x-0 w-full h-px bg-green-600 -top-px hover:bg-gray-400 transition-all"
 					/>
 				{:else}
 					<span
@@ -80,14 +80,14 @@
 		</li>
 
 		<li
-			class="flex-1 cursor-pointer group"
+			class="flex-1 cursor-pointer group transition-all"
 			on:click={() => {
 				overviewSelected = false;
 			}}
 		>
 			<span class="relative block p-4">
 				{#if !overviewSelected}
-					<span class="absolute inset-x-0 w-full h-px bg-green-600 -top-px" />
+					<span class="absolute inset-x-0 w-full h-px bg-green-600 -top-px transition-all" />
 				{:else}
 					<span
 						class="absolute inset-x-0 w-full h-px group-hover:bg-gray-400 -top-px transition-all"

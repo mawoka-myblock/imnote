@@ -1,18 +1,18 @@
-import Cookies from "js-cookie";
+import Cookies from 'js-cookie';
 
-export const rememberme = (): boolean => {
+export const rememberme = async (): Promise<boolean> => {
 	const cookies = Cookies.get('remember');
-    console.log(cookies)
+	console.log(cookies);
 	if (cookies === undefined) {
 		return false;
 	}
-    let result: boolean
-	fetch('/api/v1/getAccessToken').then((res) => {
-		if (res.status === 200) {
-			result = true;
-		} else {
-			result=  false;
-		}
-	});
-    return result
+	let result: boolean;
+	const res = await fetch('/api/v1/getAccessToken');
+	if (res.status === 200) {
+		result = true;
+	} else {
+		result = false;
+	}
+
+	return result;
 };

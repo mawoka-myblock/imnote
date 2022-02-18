@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	export async function load({ session }) {
+		console.log(session);
 		if (session.authenticated) {
 			return {
 				status: 302,
@@ -14,10 +15,11 @@
 	import { rememberme } from '$lib/utils/clientAuth';
 	import { browser } from '$app/env';
 	if (browser) {
-		const remme = rememberme();
-		if (remme === true || remme === undefined) {
-			window.location.reload();
-		}
+		rememberme().then((res) => {
+			if (res) {
+				window.location.reload();
+			}
+		});
 	}
 
 	import tippy from 'sveltejs-tippy';
