@@ -18,6 +18,7 @@ model User {
   notes        Note[]
   registerDate DateTime  @default(now())
   Picture      Picture[]
+  session      Session[]
 }
 
 model Note {
@@ -38,5 +39,15 @@ model Picture {
   id        String   @id @unique @default(cuid())
   note      Note?    @relation(fields: [noteId], references: [id], onDelete: SetNull, onUpdate: SetNull)
   noteId    String?
+  createdAt DateTime @default(now())
+}
+
+model Session {
+  id        String   @id @unique @default(cuid())
+  user      User     @relation(fields: [userEmail], references: [email])
+  userEmail String
+  lastSeen  DateTime @default(now()) @updatedAt
+  key       String   @unique
+  userAgent String
   createdAt DateTime @default(now())
 }

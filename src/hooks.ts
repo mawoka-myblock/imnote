@@ -1,13 +1,12 @@
 import * as cookie from 'cookie';
+import { verifyJWT } from '$lib/utils/auth';
 
 export async function handle({ event, resolve }) {
 	// const sth = event.request.headers;
 	// console.log(sth.get('cookie'));
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 
-	event.locals.user = cookies.user;
 	event.locals.token = cookies.token;
-	event.locals.authenticated = !!cookies.token;
 
 	const response = await resolve(event);
 
@@ -16,19 +15,15 @@ export async function handle({ event, resolve }) {
 
 /** @type {import('@sveltejs/kit').GetSession} */
 export function getSession(event) {
-	let localuser: string;
-	try {
-		localuser = event.locals.user ? JSON.parse(event.locals.user) : null;
-	} catch (e) {
-		if (e instanceof SyntaxError) {
-			return { authenticated: false, token: null, user: null };
-		} else {
-			throw e;
-		}
+	let localuser = verifyJWT(event.locals.token);
+	let authenticated = true;
+	if (typeof localuser === 'string') {
+		authenticated = false;
+		localuser = null;
 	}
 	return {
-		authenticated: event.locals.authenticated,
+		authenticated: authenticated,
 		token: event.locals.token,
-		user: localuser
+		email: localuser
 	};
 }

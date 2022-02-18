@@ -1,7 +1,8 @@
 import { v, compile, ValidationError } from 'suretype';
 import { sendMagicLink } from '$lib/emails';
 import cookie from 'cookie';
-import { generateJWT,  } from '$lib/utils/auth';
+import { randomBytes } from 'crypto';
+import { generateJWT } from '$lib/utils/auth';
 import { comparePassword } from '$lib/passwords';
 import { prisma } from '$lib/utils/clients';
 const LoginUser = v.object({
@@ -15,6 +16,18 @@ interface LoginUser {
 }
 
 export const post = async ({ request }) => {
+	const cookies = cookie.parse(request.headers.get('cookie') || '');
+	if (cookies.rememberme !== undefined) {
+		const session = await prisma.session.findUnique({
+			where: { key: cookies.rememberme }
+		});
+		if (session !== null) {
+			return {
+				status: 400,
+				body: JSON.stringify({ detail: 'already logged in' })
+			};
+		}
+	}
 	let user: LoginUser;
 	try {
 		user = compile(LoginUser, { ensure: true, colors: false })(await request.json());
@@ -42,43 +55,24 @@ export const post = async ({ request }) => {
 		}
 	}
 	const userinDB = await prisma.user.findFirst({
-		where: { email: user.email}
+		where: { email: user.email }
 	});
 	if (userinDB === null) {
 		return {
 			status: 404
-		}
+		};
 	}
-	if (!await comparePassword(userinDB.password, user.password)) {
+	if (!(await comparePassword(userinDB.password, user.password))) {
 		return {
 			status: 404
-		}
+		};
 	}
+	const userAgent = request.headers.get('User-Agent');
+	const sessionKey = randomBytes(64).toString('hex');
+	await prisma.session.create({
+		data: { key: sessionKey, userAgent: userAgent, userEmail: user.email }
+	});
 	const jwt = generateJWT(user.email);
-	/*
-	try {
-		res = verifyJWT(jwt);
-	} catch (e) {
-		if (e instanceof TokenExpiredError) {
-			return {
-				status: 400,
-				body: JSON.stringify({ detail: 'Token expired' })
-			};
-		} else if (e instanceof JsonWebTokenError) {
-			return {
-				status: 400,
-				body: JSON.stringify({ detail: 'Token malformed' })
-			};
-		} else if (e instanceof NotBeforeError) {
-			return {
-				status: 400,
-				body: JSON.stringify({ detail: 'Are you coming from the future?!' })
-			};
-		} else {
-			throw e;
-		}
-	}
-    */
 
 	return {
 		status: 200,
@@ -89,11 +83,18 @@ export const post = async ({ request }) => {
 					maxAge: 3600,
 					sameSite: 'strict',
 					path: '/'
+
 					// secure: true
 				}),
 				cookie.serialize('tokenvalid', '', {
 					maxAge: 3600,
 					path: '/'
+				}),
+				cookie.serialize('rememberme', sessionKey, {
+					httpOnly: true,
+					path: '/',
+					sameSite: 'strict',
+					maxAge: 60 * 60 * 24 * 365
 				})
 			]
 		}

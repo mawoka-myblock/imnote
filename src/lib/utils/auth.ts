@@ -22,12 +22,10 @@ export const verifyJWT = (token: string): jwt.JwtPayload | string => {
 };
 
 export interface CookiesInterface {
-	user?: string;
 	token: string;
 }
 
 const Cookies = v.object({
-	user: v.string(),
 	token: v.string().required()
 });
 
