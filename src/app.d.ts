@@ -7,7 +7,11 @@ declare namespace App {
 
 	interface Platform {}
 
-	interface Session {}
+	interface Session {
+		authenticated: boolean;
+		token: string | null;
+		email: string | null;
+	}
 
 	interface Stuff {}
 }

@@ -7,6 +7,7 @@ export async function handle({ event, resolve }) {
 	const cookies = cookie.parse(event.request.headers.get('cookie') || '');
 
 	event.locals.token = cookies.token;
+	event.locals.rememberme = cookies.rememberme;
 
 	const response = await resolve(event);
 
@@ -14,8 +15,9 @@ export async function handle({ event, resolve }) {
 }
 
 /** @type {import('@sveltejs/kit').GetSession} */
-export function getSession(event) {
+export async function getSession(event) {
 	let localuser = verifyJWT(event.locals.token);
+	console.log(localuser)
 	let authenticated = true;
 	if (typeof localuser === 'string') {
 		authenticated = false;

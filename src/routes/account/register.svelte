@@ -1,5 +1,11 @@
 <script context="module" lang="ts">
 	export async function load({ session }) {
+		if (session.authenticated) {
+			return {
+				status: 302,
+				redirect: '/'
+			};
+		}
 		return {};
 	}
 </script>

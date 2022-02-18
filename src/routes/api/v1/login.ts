@@ -2,7 +2,7 @@ import { v, compile, ValidationError } from 'suretype';
 import { sendMagicLink } from '$lib/emails';
 import cookie from 'cookie';
 import { randomBytes } from 'crypto';
-import { generateJWT } from '$lib/utils/auth';
+import { generateJWT, verifyJWT } from '$lib/utils/auth';
 import { comparePassword } from '$lib/passwords';
 import { prisma } from '$lib/utils/clients';
 const LoginUser = v.object({
@@ -17,10 +17,29 @@ interface LoginUser {
 
 export const post = async ({ request }) => {
 	const cookies = cookie.parse(request.headers.get('cookie') || '');
+	let jwt: string
 	if (cookies.rememberme !== undefined) {
 		const session = await prisma.session.findUnique({
 			where: { key: cookies.rememberme }
 		});
+		const jwt_verify = verifyJWT(cookies.jwt);
+		if (typeof jwt_verify === 'string') {
+			const userAgent = request.headers.get('User-Agent');
+			const session = await prisma.session.update({
+				where: {
+					key: cookies.rememberme
+				},
+				data: { lastSeen: new Date(), userAgent: userAgent }
+			});
+
+			if (session === null) {
+				return {
+					status: 403
+				};
+			}
+
+			jwt = generateJWT(session.userEmail);
+		}
 		if (session !== null) {
 			return {
 				status: 400,
@@ -72,7 +91,7 @@ export const post = async ({ request }) => {
 	await prisma.session.create({
 		data: { key: sessionKey, userAgent: userAgent, userEmail: user.email }
 	});
-	const jwt = generateJWT(user.email);
+	jwt = generateJWT(user.email);
 
 	return {
 		status: 200,
@@ -94,6 +113,12 @@ export const post = async ({ request }) => {
 					httpOnly: true,
 					path: '/',
 					sameSite: 'strict',
+					maxAge: 60 * 60 * 24 * 365
+				}),
+				cookie.serialize("remember", "", {
+					httpOnly: false,
+					path: "/",
+					sameSite: "lax",
 					maxAge: 60 * 60 * 24 * 365
 				})
 			]
