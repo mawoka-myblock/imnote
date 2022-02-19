@@ -84,7 +84,6 @@
 				href="/account/login">Login</a
 			>
 		</li>
-		
 	</ul>
 </nav>
 

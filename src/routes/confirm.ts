@@ -1,4 +1,4 @@
-import { prisma } from "$lib/utils/clients";
+import { prisma } from '$lib/utils/clients';
 export const get = async ({ url }) => {
 	const code = url.searchParams.get('code');
 	if (code === null) {

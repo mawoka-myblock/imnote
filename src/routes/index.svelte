@@ -6,12 +6,12 @@
 				redirect: '/app'
 			};
 		}
-		return {}
+		return {};
 	}
 </script>
 
 <script lang="ts">
-	import Navbar from "$lib/components/Navbar.svelte"
-	let overviewSelected = false;
+	import Navbar from '$lib/components/Navbar.svelte';
 </script>
+
 <Navbar />

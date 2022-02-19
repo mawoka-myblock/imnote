@@ -15,7 +15,7 @@ const config = {
 		adapter: adapter({
 			out: 'build',
 			precompress: true
-		}),
+		})
 		/*
 		vite: {
 			optimizeDeps: {

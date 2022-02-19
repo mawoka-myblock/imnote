@@ -38,7 +38,7 @@
 						centeredSlides={true}
 						loop={true}
 						slidesPerView="auto"
-                        preloadImages={false}
+						preloadImages={false}
 						autoplay={{
 							delay: 2500,
 							disableOnInteraction: false
@@ -76,6 +76,6 @@
 				{/if}
 			</div>
 		</a>
-        <span class="py-4"></span>
+		<span class="py-4" />
 	{/each}
 </div>

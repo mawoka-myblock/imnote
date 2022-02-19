@@ -22,7 +22,7 @@
 </script>
 
 <script lang="ts">
-	export let notes: any;
+	export let notes;
 	export let create: boolean;
 	console.log(create);
 	let overviewSelected = !create;

@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	export async function load({ session, fetch, url }) {
+	export async function load({ session, url }) {
 		const create = url.searchParams.get('image');
 		console.log('SERVER', create);
 		if (!session.authenticated) {
