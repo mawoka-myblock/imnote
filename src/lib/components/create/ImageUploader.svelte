@@ -23,4 +23,6 @@
 	});
 </script>
 
-<Dashboard {uppy} />
+<div class="w-screen">
+	<Dashboard {uppy} props={{ inline: true }} />
+</div>

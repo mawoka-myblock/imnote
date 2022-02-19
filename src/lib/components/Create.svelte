@@ -77,7 +77,7 @@
 			class:cursor-not-allowed={!inputValid}
 			class:opacity-50={!inputValid}
 		>
-			<div class="w-screen flex justify-center">
+			<div class="w-screen flex justify-center mx-2">
 				<ImageUploader bind:images bind:complete />
 			</div>
 		</div>

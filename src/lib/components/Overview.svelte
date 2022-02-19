@@ -29,7 +29,7 @@
 	{#each notes as note}
 		<a
 			href="/note/{note.id}"
-			class="block overflow-hidden rounded-2xl w-2/5 justify-self-center"
+			class="block overflow-hidden rounded-2xl w-full sm:w-2/5justify-self-center"
 		>
 			<div class="object-cover h-56 flex justify-center">
 				<div class="flex justify-center items-center">
