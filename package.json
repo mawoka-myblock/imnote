@@ -31,7 +31,7 @@
 		"@uppy/svelte": "^1.0.7",
 		"@uppy/xhr-upload": "^2.0.7",
 		"autoprefixer": "^10.4.2",
-		"bcrypt": "^5.0.1",
+		"bcryptjs": "^2.4.3",
 		"crypto-js": "^4.1.1",
 		"cuid": "^2.1.8",
 		"deta": "^1.0.2",
