@@ -1,5 +1,7 @@
 <script context="module" lang="ts">
-	export async function load({ session, fetch }) {
+	export async function load({ session, fetch, url }) {
+		const create = url.searchParams.get('create');
+		console.log('SERVER', create);
 		if (!session.authenticated) {
 			return {
 				status: 302,
@@ -13,7 +15,7 @@
 				// }
 			});
 			return {
-				props: { notes: await res.json() }
+				props: { notes: await res.json(), create: create === null ? false : true }
 			};
 		}
 	}
@@ -21,10 +23,10 @@
 
 <script lang="ts">
 	export let notes: any;
-	console.log(notes);
-	let overviewSelected = true;
+	export let create: boolean;
+	console.log(create);
+	let overviewSelected = !create;
 	import Overview from '$lib/components/Overview.svelte';
-	import Create from '$lib/components/Create.svelte';
 </script>
 
 <div class="w-full h-full overflow-x-hidden">
@@ -32,7 +34,9 @@
 		{#if overviewSelected}
 			<Overview bind:notes />
 		{:else}
-			<Create />
+			{#await import('$lib/components/Create.svelte') then c}
+				<svelte:component this={c.default} />
+			{/await}
 		{/if}
 	</div>
 	<ul class="flex border-b border-gray-100 bottom-0 fixed w-screen bg-white z-[999999999]">
