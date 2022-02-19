@@ -1,5 +1,5 @@
 import { v, compile, ValidationError } from 'suretype';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '$lib/utils/clients';
 import { hashPassword } from '$lib/passwords';
 import { sendConfirmationEmail } from '$lib/emails';
 
@@ -30,7 +30,6 @@ export async function post({ request }) {
 			throw e;
 		}
 	}
-	const prisma = new PrismaClient();
 	if (
 		(await prisma.user.findFirst({
 			where: { email: { equals: user.email } }

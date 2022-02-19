@@ -17,13 +17,14 @@ const getTransporter = async (): Promise<nodemailer.Transporter> => {
 			}
 		});
 	} else {
+		console.log(process.env.EMAIL_AUTH_USER, process.env.EMAIL_AUTH_PASS)
 		transporter = nodemailer.createTransport({
-			host: String(import.meta.env.VITE_EMAIL_HOST),
-			port: import.meta.env.VITE_EMAIL_PORT,
-			secure: import.meta.env.VITE_EMAIL_SECURE === 'true', // true for 465, false for other ports
+			host: process.env.EMAIL_HOST,
+			port: process.env.EMAIL_PORT,
+			secure: process.env.EMAIL_SECURE === 'true', // true for 465, false for other ports
 			auth: {
-				user: import.meta.env.VITE_EMAIL_AUTH_USER, // generated ethereal user
-				pass: import.meta.env.VITE_EMAIL_AUTH_PASS // generated ethereal password
+				user: process.env.EMAIL_AUTH_USER, // generated ethereal user
+				pass: process.env.EMAIL_AUTH_PASS // generated ethereal password
 			}
 		});
 	}
@@ -42,7 +43,7 @@ export const sendConfirmationEmail = async (
 
 	try {
 		const info = await transporter.sendMail({
-			from: String(import.meta.env.VITE_EMAIL_FROM),
+			from: String(process.env.EMAIL_FROM),
 			to: email,
 			subject: 'Please confirm your account',
 			text: `
@@ -73,10 +74,10 @@ export const sendMagicLink = async (email: string): Promise<boolean> => {
 		return false;
 	}
 	const key = randomBytes(16).toString('hex');
-	const redis = new Redis(String(import.meta.env.VITE_REDIS_URL));
+	const redis = new Redis(String(process.env.REDIS_URL));
 	await redis.set(key, email, 'ex', 900);
 	const info = await transporter.sendMail({
-		from: String(import.meta.env.VITE_EMAIL_FROM),
+		from: String(process.env.EMAIL_FROM),
 		to: email,
 		subject: 'Please confirm your account',
 		text: `

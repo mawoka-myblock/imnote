@@ -11,7 +11,7 @@ export async function get({ url }) {
 		};
 	}
 	const prisma = new PrismaClient();
-	const redis = new Redis(String(import.meta.env.VITE_REDIS_URL));
+	const redis = new Redis(String(process.env.REDIS_URL));
 	const magicLink = await redis.get(code);
 	if (magicLink == null) {
 		return {

@@ -3,7 +3,7 @@ import * as cookie from 'cookie';
 import { v, compile, ValidationError } from 'suretype';
 
 export const generateJWT = (email: string): string => {
-	return jwt.sign({ email: email }, String(import.meta.env.VITE_SECRET_KEY), {
+	return jwt.sign({ email: email }, String(process.env.SECRET_KEY), {
 		algorithm: 'HS512',
 		expiresIn: 3600
 	});
@@ -12,7 +12,7 @@ export const generateJWT = (email: string): string => {
 export const verifyJWT = (token: string): jwt.JwtPayload | string => {
 	let res;
 	try {
-		res = jwt.verify(token, String(import.meta.env.VITE_SECRET_KEY), {
+		res = jwt.verify(token, String(process.env.SECRET_KEY), {
 			algorithms: ['HS512']
 		});
 	} catch (e) {

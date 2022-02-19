@@ -8,4 +8,4 @@ let { PrismaClient } = Prisma;
 if (!import.meta.env.DEV) PrismaClient = ProdPrisma.PrismaClient;
 
 export const prisma = new PrismaClient();
-export const deta = Deta(String(import.meta.env.VITE_DETA_KEY));
+export const deta = Deta(String(process.env.DETA_KEY));
