@@ -4,6 +4,7 @@
 	import Compressor from '@uppy/compressor';
 	import Uppy from '@uppy/core';
 	export let images: Array<string> = [];
+	export let complete = false;
 	const uppy = new Uppy()
 		.use(XHRUpload, {
 			endpoint: '/api/v1/images/upload',
@@ -17,9 +18,9 @@
 		images.push(response.body);
 		console.log(response.body, 'BODY');
 	});
-    uppy.on("complete", () => {
-        console.log("OK!")
-    })
+	uppy.on('complete', () => {
+		complete = true;
+	});
 </script>
 
 <Dashboard {uppy} />

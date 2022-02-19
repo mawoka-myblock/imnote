@@ -9,7 +9,7 @@
 		}
 		return {
 			props: {
-				session: session
+				
 			}
 		};
 	}
@@ -21,7 +21,7 @@
 	import Create from '$lib/components/Create.svelte';
 </script>
 
-<div class="w-full h-full">
+<div class="w-full h-full overflow-x-hidden">
 	<div>
 		{#if overviewSelected}
 			<Overview />
@@ -29,7 +29,7 @@
 			<Create />
 		{/if}
 	</div>
-	<ul class="flex border-b border-gray-100 bottom-0 fixed w-screen bg-white z-50">
+	<ul class="flex border-b border-gray-100 bottom-0 fixed w-screen bg-white z-[999999999]">
 		<li
 			class="flex-1 cursor-pointer group"
 			on:click={() => {
