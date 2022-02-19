@@ -44,7 +44,6 @@ export async function del({ request, url }) {
 		}
 	});
 
-
 	if (updateRes === null) {
 		return {
 			status: 404

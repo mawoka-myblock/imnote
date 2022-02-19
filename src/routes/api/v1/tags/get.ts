@@ -34,7 +34,6 @@ export async function get({ request, url }) {
 		}
 	});
 
-
 	if (notes === null) {
 		return {
 			status: 404

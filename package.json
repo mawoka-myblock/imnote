@@ -67,6 +67,8 @@
 	"type": "module",
 	"dependencies": {
 		"@prisma/client": "^3.9.2",
+		"@sentry/browser": "^6.17.9",
+		"@sentry/tracing": "^6.17.9",
 		"cookie": "^0.4.2",
 		"ioredis": "^4.28.5"
 	}
