@@ -3,9 +3,9 @@
 // See https://kit.svelte.dev/docs/typescript
 // for information about these interfaces
 declare namespace App {
-	interface Locals {}
+	// interface Locals {}
 
-	interface Platform {}
+	// interface Platform {}
 
 	interface Session {
 		authenticated: boolean;
@@ -13,5 +13,5 @@ declare namespace App {
 		email: string | null;
 	}
 
-	interface Stuff {}
+	// interface Stuff {}
 }

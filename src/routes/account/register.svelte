@@ -50,18 +50,10 @@
 			responseData.open = true;
 		}
 	});
-	$: console.log($errors);
-	$: console.log($touched);
-	let loginData = {
-		email: '',
-		password1: '',
-		password2: ''
-	};
 	let responseData = {
 		open: false,
 		data: ''
 	};
-	let inputValid = false;
 </script>
 
 <div class="flex items-center justify-center h-screen px-4">

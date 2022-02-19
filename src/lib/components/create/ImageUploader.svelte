@@ -9,7 +9,7 @@
 		.use(XHRUpload, {
 			endpoint: '/api/v1/images/upload',
 			formData: false,
-			getResponseData: (responseText, response) => {
+			getResponseData: (responseText) => {
 				return responseText;
 			}
 		})

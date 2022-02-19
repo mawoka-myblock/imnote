@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-import { DateTime } from 'luxon';
 import cookie from 'cookie';
 import Redis from 'ioredis';
 import { generateJWT } from '$lib/utils/auth';

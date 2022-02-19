@@ -21,7 +21,7 @@ export async function post({ request }) {
 	const drive = deta.Drive('imnote');
 	const data: Buffer = Buffer.from(await request.arrayBuffer());
 	await drive.put(id, { data: data, contentType: content_type });
-	const pic = await prisma.picture.create({
+	await prisma.picture.create({
 		data: { userEmail: jwt.email, id: id }
 	});
 

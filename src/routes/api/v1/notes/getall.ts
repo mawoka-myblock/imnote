@@ -2,7 +2,7 @@ import { analyzeCookies, verifyJWT } from '$lib/utils/auth';
 import type { CookiesInterface } from '$lib/utils/auth';
 import { prisma } from '$lib/utils/clients';
 
-export async function get({ request, url }) {
+export async function get({ request }) {
 	const cookies: CookiesInterface | boolean = analyzeCookies(request);
 	if (typeof cookies === 'boolean') {
 		return {

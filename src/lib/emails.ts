@@ -1,6 +1,4 @@
 import nodemailer from 'nodemailer';
-import { PrismaClient } from '@prisma/client';
-import { DateTime as LuxonDate } from 'luxon';
 import Redis from 'ioredis';
 import { randomBytes } from 'crypto';
 import { prisma } from '$lib/utils/clients';
