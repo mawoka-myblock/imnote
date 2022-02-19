@@ -49,9 +49,7 @@ export async function post({ request }) {
 	const picArray = [];
 	// eslint-disable-next-line prefer-const
 	for (let entry in note.pictures) {
-		console.log(note.pictures[entry]);
 		const lol = await prisma.picture.findFirst({ where: { id: note.pictures[entry] } });
-		console.log(lol);
 		if (lol === null) {
 			return {
 				status: 404,

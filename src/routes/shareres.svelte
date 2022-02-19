@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
 	export async function load({ session, url }) {
 		const create = url.searchParams.get('image');
-		console.log('SERVER', create);
 		if (!session.authenticated) {
 			return {
 				status: 302,

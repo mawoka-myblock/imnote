@@ -3,7 +3,6 @@ import { generateJWT } from '$lib/utils/auth';
 import { prisma } from '$lib/utils/clients';
 export const get = async ({ request }) => {
 	const cookies = cookie.parse(request.headers.get('cookie') || '');
-	console.log('HI!');
 	if (cookies.rememberme == undefined) {
 		return {
 			status: 403
@@ -25,7 +24,6 @@ export const get = async ({ request }) => {
 
 	const jwt = generateJWT(session.userEmail);
 
-	console.log('OK!');
 	return {
 		status: 200,
 		headers: {

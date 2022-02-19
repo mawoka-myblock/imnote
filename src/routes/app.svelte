@@ -1,7 +1,6 @@
 <script context="module" lang="ts">
 	export async function load({ session, fetch, url }) {
 		const create = url.searchParams.get('create');
-		console.log('SERVER', create);
 		if (!session.authenticated) {
 			return {
 				status: 302,
@@ -24,7 +23,6 @@
 <script lang="ts">
 	export let notes;
 	export let create: boolean;
-	console.log(create);
 	let overviewSelected = !create;
 	import Overview from '$lib/components/Overview.svelte';
 </script>

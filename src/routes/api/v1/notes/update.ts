@@ -95,7 +95,6 @@ export async function post({ request }) {
 	} else {
 		newTags = [...oldTags.tags, ...note.tags];
 	}
-	console.log(oldTags);
 	newTags = newTags.filter((item, pos) => newTags.indexOf(item) === pos);
 
 	const res = await prisma.note.update({

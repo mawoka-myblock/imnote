@@ -10,7 +10,6 @@ export const get = async ({ url }) => {
 			where: { verify_key: code, verified: false },
 			data: { verified: true }
 		});
-		console.log(res);
 		if (res.count === 0) {
 			return {
 				status: 404

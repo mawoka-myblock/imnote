@@ -34,7 +34,6 @@ export async function get({ request, url }) {
 		}
 	});
 
-	console.log(notes);
 
 	if (notes === null) {
 		return {

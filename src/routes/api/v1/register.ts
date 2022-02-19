@@ -43,7 +43,6 @@ export async function post({ request }) {
 		const res = await prisma.user.create({
 			data: { email: user.email, password: await hashPassword(user.password) }
 		});
-		console.log(res);
 		await sendConfirmationEmail(user.email, res.verify_key);
 	}
 	prisma.$disconnect;

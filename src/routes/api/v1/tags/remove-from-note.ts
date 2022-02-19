@@ -44,7 +44,6 @@ export async function del({ request, url }) {
 		}
 	});
 
-	console.log(updateRes);
 
 	if (updateRes === null) {
 		return {

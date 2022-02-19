@@ -67,7 +67,6 @@
 	$: {
 		change = inputData.description !== note.description || inputData.title !== note.title;
 	}
-	$: console.log(change);
 
 	const saveChanges = async () => {
 		await fetch('/api/v1/notes/update', {

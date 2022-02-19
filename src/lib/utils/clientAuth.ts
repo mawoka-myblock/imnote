@@ -2,7 +2,6 @@ import Cookies from 'js-cookie';
 
 export const rememberme = async (): Promise<boolean> => {
 	const cookies = Cookies.get('remember');
-	console.log(cookies);
 	if (cookies === undefined) {
 		return false;
 	}

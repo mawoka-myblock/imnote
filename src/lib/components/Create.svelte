@@ -11,7 +11,6 @@
 	let responseModelOpen = false;
 	let inputValid = false;
 	$: inputValid = inputData.title !== '';
-	$: console.log(complete);
 	function Sleep(milliseconds: number): Promise<void> {
 		return new Promise((resolve) => setTimeout(resolve, milliseconds));
 	}

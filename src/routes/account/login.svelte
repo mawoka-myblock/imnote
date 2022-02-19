@@ -1,6 +1,5 @@
 <script context="module" lang="ts">
 	export async function load({ session }) {
-		console.log(session);
 		if (session.authenticated) {
 			return {
 				status: 302,
@@ -53,7 +52,6 @@
 		} else {
 			responseData.data = 'error';
 		}
-		console.log(responseData.data);
 		responseData.open = true;
 	};
 </script>
