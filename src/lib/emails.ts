@@ -65,7 +65,6 @@ export const sendMagicLink = async (email: string): Promise<boolean> => {
 	const user = await prisma.user.findFirst({
 		where: { email: email }
 	});
-	console.log(user);
 	if (user === null) {
 		return false;
 	}
@@ -82,7 +81,6 @@ You try to log in. If it is you, please click the following link and you're logg
 		`
 	});
 	if (import.meta.env.DEV) {
-		console.log(info, process.env.BASE_ADDRESS);
 		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 	}
 	return true;

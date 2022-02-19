@@ -15,6 +15,7 @@
 	"devDependencies": {
 		"@felte/reporter-tippy": "^1.0.1",
 		"@felte/validator-yup": "^1.0.0",
+		"@fontsource/marck-script": "^4.5.1",
 		"@sveltejs/adapter-auto": "next",
 		"@sveltejs/adapter-node": "^1.0.0-next.68",
 		"@sveltejs/kit": "next",
@@ -56,6 +57,7 @@
 		"svelte-check": "^2.2.6",
 		"svelte-preprocess": "^4.10.1",
 		"sveltejs-tippy": "^3.0.0",
+		"swiper": "^8.0.6",
 		"tailwindcss": "^3.0.12",
 		"ts-node-dev": "^1.1.8",
 		"tslib": "^2.3.1",

@@ -73,8 +73,9 @@
 			</div>
 		</div>
 		<div
-			class="bg-white mt-4 rounded-lg flex justify-center pb-40 transition"
+			class="bg-white mt-4 rounded-lg flex justify-center pb-20 transition"
 			class:pointer-events-none={!inputValid}
+			class:cursor-not-allowed={!inputValid}
 			class:opacity-50={!inputValid}
 		>
 			<div class="w-screen flex justify-center">

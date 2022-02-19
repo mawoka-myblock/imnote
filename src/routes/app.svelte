@@ -1,27 +1,36 @@
 <script context="module" lang="ts">
-	export async function load({ session }) {
+	export async function load({ session, fetch }) {
 		if (!session.authenticated) {
 			return {
 				status: 302,
 				redirect: '/account/login'
 			};
+		} else {
+			const res = await fetch(`${import.meta.env.VITE_BASE_ADDRESS}/api/v1/notes/getall`, {
+				credentials: 'include'
+				// headers: {
+				// 	"cooki"
+				// }
+			});
+			return {
+				props: { notes: await res.json() }
+			};
 		}
-		return {
-			props: {}
-		};
 	}
 </script>
 
 <script lang="ts">
+	export let notes: any;
+	console.log(notes);
 	let overviewSelected = true;
 	import Overview from '$lib/components/Overview.svelte';
 	import Create from '$lib/components/Create.svelte';
 </script>
 
 <div class="w-full h-full overflow-x-hidden">
-	<div>
+	<div class="pb-16">
 		{#if overviewSelected}
-			<Overview />
+			<Overview bind:notes />
 		{:else}
 			<Create />
 		{/if}

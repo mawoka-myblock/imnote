@@ -5,13 +5,11 @@
 				status: 302,
 				redirect: '/app'
 			};
+		} else {
+			return {
+				status: 302,
+				redirect: '/account/login'
+			};
 		}
-		return {}
 	}
 </script>
-
-<script lang="ts">
-	import Navbar from "$lib/components/Navbar.svelte"
-	let overviewSelected = false;
-</script>
-<Navbar />
