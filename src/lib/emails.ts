@@ -46,10 +46,8 @@ export const sendConfirmationEmail = async (
 			to: email,
 			subject: 'Please confirm your account',
 			text: `
-            Hey ${email}!
-            Please confirm your account by clicking on the following link: ${
-				process.env.BASE_ADDRESS
-			}/confirm?code=${verify_string}
+Hey ${email}!
+Please confirm your account by clicking on the following link: ${process.env.BASE_ADDRESS}/confirm?code=${verify_string}
             `
 		});
 		if (import.meta.env.DEV) {
@@ -79,10 +77,8 @@ export const sendMagicLink = async (email: string): Promise<boolean> => {
 		to: email,
 		subject: 'Please confirm your account',
 		text: `
-		Hey ${email}!
-		You try to log in. If it is you, please click the following link and you're logged in automatically. Be careful, this link will only work for the next 15 minutes!: ${
-			process.env.BASE_ADDRESS
-		}/ahoy?code=${key}
+Hey ${email}!
+You try to log in. If it is you, please click the following link and you're logged in automatically. Be careful, this link will only work for the next 15 minutes!: ${process.env.BASE_ADDRESS}/ahoy?code=${key}
 		`
 	});
 	if (import.meta.env.DEV) {

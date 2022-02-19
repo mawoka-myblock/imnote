@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from "$lib/utils/clients";
 export const get = async ({ url }) => {
 	const code = url.searchParams.get('code');
 	if (code === null) {
@@ -6,7 +6,6 @@ export const get = async ({ url }) => {
 			status: 404
 		};
 	} else {
-		const prisma = new PrismaClient();
 		const res = await prisma.user.updateMany({
 			where: { verify_key: code, verified: false },
 			data: { verified: true }
