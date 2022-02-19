@@ -23,7 +23,7 @@ export async function post({ request }) {
 				status: 400,
 				body: e,
 				headers: {
-					"content-type": "application/json"
+					'content-type': 'application/json'
 				}
 			};
 		} else {

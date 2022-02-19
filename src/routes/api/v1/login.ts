@@ -17,7 +17,7 @@ interface LoginUser {
 
 export const post = async ({ request }) => {
 	const cookies = cookie.parse(request.headers.get('cookie') || '');
-	let jwt: string
+	let jwt: string;
 	if (cookies.rememberme !== undefined) {
 		const session = await prisma.session.findUnique({
 			where: { key: cookies.rememberme }
@@ -115,10 +115,10 @@ export const post = async ({ request }) => {
 					sameSite: 'strict',
 					maxAge: 60 * 60 * 24 * 365
 				}),
-				cookie.serialize("remember", "", {
+				cookie.serialize('remember', '', {
 					httpOnly: false,
-					path: "/",
-					sameSite: "lax",
+					path: '/',
+					sameSite: 'lax',
 					maxAge: 60 * 60 * 24 * 365
 				})
 			]

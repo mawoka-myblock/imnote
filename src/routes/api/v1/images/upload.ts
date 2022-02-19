@@ -5,7 +5,7 @@ import cuid from 'cuid';
 
 export async function post({ request }) {
 	const cookies: CookiesInterface | boolean = analyzeCookies(request);
-	const content_type = request.headers.get("content-type")
+	const content_type = request.headers.get('content-type');
 	if (typeof cookies === 'boolean') {
 		return {
 			status: 403
@@ -22,7 +22,7 @@ export async function post({ request }) {
 	const data: Buffer = Buffer.from(await request.arrayBuffer());
 	await drive.put(id, { data: data, contentType: content_type });
 	const pic = await prisma.picture.create({
-		data: {userEmail: jwt.email, id: id}
+		data: { userEmail: jwt.email, id: id }
 	});
 
 	return {

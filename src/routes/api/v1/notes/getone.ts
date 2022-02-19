@@ -26,7 +26,7 @@ export async function get({ request, url }) {
 		where: { id: noteId, userEmail: jwt.email },
 		include: {
 			pictures: true,
-			user: false,
+			user: false
 		}
 	});
 

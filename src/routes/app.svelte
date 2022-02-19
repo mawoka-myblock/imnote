@@ -1,16 +1,13 @@
 <script context="module" lang="ts">
 	export async function load({ session }) {
 		if (!session.authenticated) {
-
 			return {
 				status: 302,
 				redirect: '/account/login'
 			};
 		}
 		return {
-			props: {
-				
-			}
+			props: {}
 		};
 	}
 </script>
@@ -87,7 +84,9 @@
 		>
 			<span class="relative block p-4">
 				{#if !overviewSelected}
-					<span class="absolute inset-x-0 w-full h-px bg-green-600 -top-px transition-all" />
+					<span
+						class="absolute inset-x-0 w-full h-px bg-green-600 -top-px transition-all"
+					/>
 				{:else}
 					<span
 						class="absolute inset-x-0 w-full h-px group-hover:bg-gray-400 -top-px transition-all"

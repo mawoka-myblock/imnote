@@ -70,7 +70,7 @@ export const sendMagicLink = async (email: string): Promise<boolean> => {
 	const user = await prisma.user.findFirst({
 		where: { email: email }
 	});
-	console.log(user)
+	console.log(user);
 	if (user === null) {
 		return false;
 	}
