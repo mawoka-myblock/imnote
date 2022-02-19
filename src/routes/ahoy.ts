@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '$lib/utils/clients';
 import cookie from 'cookie';
 import Redis from 'ioredis';
 import { generateJWT } from '$lib/utils/auth';
@@ -10,7 +10,6 @@ export async function get({ url }) {
 			status: 404
 		};
 	}
-	const prisma = new PrismaClient();
 	const redis = new Redis(String(process.env.REDIS_URL));
 	const magicLink = await redis.get(code);
 	if (magicLink == null) {

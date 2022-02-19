@@ -17,7 +17,6 @@ const getTransporter = async (): Promise<nodemailer.Transporter> => {
 			}
 		});
 	} else {
-		console.log(process.env.EMAIL_AUTH_USER, process.env.EMAIL_AUTH_PASS)
 		transporter = nodemailer.createTransport({
 			host: process.env.EMAIL_HOST,
 			port: process.env.EMAIL_PORT,
@@ -49,12 +48,11 @@ export const sendConfirmationEmail = async (
 			text: `
             Hey ${email}!
             Please confirm your account by clicking on the following link: ${
-				import.meta.env.VITE_BASE_ADDRESS
+				process.env.BASE_ADDRESS
 			}/confirm?code=${verify_string}
             `
 		});
 		if (import.meta.env.DEV) {
-			console.log(info, import.meta.env.VITE_BASE_ADDRESS);
 			console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 		}
 		return true;
@@ -83,12 +81,12 @@ export const sendMagicLink = async (email: string): Promise<boolean> => {
 		text: `
 		Hey ${email}!
 		You try to log in. If it is you, please click the following link and you're logged in automatically. Be careful, this link will only work for the next 15 minutes!: ${
-			import.meta.env.VITE_BASE_ADDRESS
+			process.env.BASE_ADDRESS
 		}/ahoy?code=${key}
 		`
 	});
 	if (import.meta.env.DEV) {
-		console.log(info, import.meta.env.VITE_BASE_ADDRESS);
+		console.log(info, process.env.BASE_ADDRESS);
 		console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 	}
 	return true;
