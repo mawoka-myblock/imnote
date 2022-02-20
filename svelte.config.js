@@ -1,4 +1,5 @@
 import adapter from '@sveltejs/adapter-node';
+import EnvironmentPlugin from 'vite-plugin-environment'
 import preprocess from 'svelte-preprocess';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -15,7 +16,12 @@ const config = {
 		adapter: adapter({
 			out: 'build',
 			precompress: true
-		})
+		}),
+		vite: {
+			plugins: [
+				EnvironmentPlugin("all", {prefix: "VITE_", defineOn: "import.meta.env", loadEnvFiles: false})
+			]
+		}
 		/*
 		vite: {
 			optimizeDeps: {

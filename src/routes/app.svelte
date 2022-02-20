@@ -7,6 +7,7 @@
 				redirect: '/account/login'
 			};
 		} else {
+			console.log(import.meta.env.VITE_BASE_ADDRESS)
 			const res = await fetch(`${import.meta.env.VITE_BASE_ADDRESS}/api/v1/notes/getall`, {
 				credentials: 'include'
 				// headers: {

@@ -15,6 +15,7 @@ RUN npm ci
 COPY . .
 
 # build the application
+ENV VITE_BASE_ADDRESS=https://imnote.mawoka.eu 
 RUN npx prisma generate && npm run build
 
 ### Serve Step

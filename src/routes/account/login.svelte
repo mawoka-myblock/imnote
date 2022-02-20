@@ -1,5 +1,6 @@
 <script context="module" lang="ts">
 	export async function load({ session }) {
+		console.log(import.meta.env.VITE_BASE_ADDRESS);
 		if (session.authenticated) {
 			return {
 				status: 302,
