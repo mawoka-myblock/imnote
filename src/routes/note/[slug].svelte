@@ -76,7 +76,6 @@
 	$: if (complete) {
 		submit().then();
 	}
-	$: console.log(complete, images)
 
 	const submit = async () => {
 		const res = await fetch('/api/v1/notes/update', {
