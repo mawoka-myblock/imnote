@@ -1,6 +1,7 @@
 import { analyzeCookies, verifyJWT } from '$lib/utils/auth';
 import type { CookiesInterface } from '$lib/utils/auth';
-import { deta, prisma } from '$lib/utils/clients';
+import { prisma } from '$lib/utils/clients';
+import { download } from '$lib/storage/download';
 
 export async function get({ request, url }) {
 	const imageId = url.searchParams.get('id');
@@ -35,10 +36,9 @@ export async function get({ request, url }) {
 			status: 404
 		};
 	}
-	const drive = deta.Drive('imnote');
-	const picture = await (await drive.get(imageId)).arrayBuffer();
+
 	return {
-		body: new Uint8Array(picture),
+		body: await download(imageId),
 		headers: {
 			'Content-Type': 'image/png'
 		}

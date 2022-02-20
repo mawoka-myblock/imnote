@@ -1,11 +1,10 @@
 import { analyzeCookies, verifyJWT } from '$lib/utils/auth';
 import type { CookiesInterface } from '$lib/utils/auth';
-import { deta, prisma } from '$lib/utils/clients';
-import cuid from 'cuid';
+import { upload } from '$lib/storage/upload';
+import { prisma } from '$lib/utils/clients';
 
 export async function post({ request }) {
 	const cookies: CookiesInterface | boolean = analyzeCookies(request);
-	const content_type = request.headers.get('content-type');
 	if (typeof cookies === 'boolean') {
 		return {
 			status: 403
@@ -17,10 +16,8 @@ export async function post({ request }) {
 			status: 403
 		};
 	}
-	const id = cuid();
-	const drive = deta.Drive('imnote');
-	const data: Buffer = Buffer.from(await request.arrayBuffer());
-	await drive.put(id, { data: data, contentType: content_type });
+
+	const id = await upload(await request.arrayBuffer());
 	await prisma.picture.create({
 		data: { userEmail: jwt.email, id: id }
 	});
